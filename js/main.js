@@ -1,10 +1,16 @@
-let getRandomNumber = (min = 1, max = 10) => {
-  return Math.floor(Math.random() * (max - min + 1)) + min
+const getRandomPositiveInteger = (a, b = 1) => {
+  if (a === undefined) {
+    throw new Error('Первый параметр должен быть число');
+  }
+
+  const lower = Math.ceil(Math.min(Math.abs(a), Math.abs(b)));
+  const upper = Math.floor(Math.max(Math.abs(a), Math.abs(b)));
+  const result = Math.random() * (upper - lower + 1) + lower;
+  return Math.floor(result);
 };
 
-let checkLengthLine = (line, maxLength) => {
-  return (line.length <= maxLength) ? true : false
-};
+const checkLengthLine = (line, maxLength) => (line.length <= maxLength);
 
-// getRandomNumber(1, 10);
-// checkLengthLine('test', 10);
+
+getRandomPositiveInteger(1, 0);
+checkLengthLine('test', 10);
