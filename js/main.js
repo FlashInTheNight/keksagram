@@ -21,6 +21,16 @@ const NAMES = [
   'Ксения',
 ];
 
+const DESCRIPTION = [
+  'Антилопа',
+  'Гепард',
+  'Бегемот',
+  'Олень',
+  'Кот',
+  'Крошечный заброшенный дом поросший дикими ягодами',
+  'Лазурный берег реки огромных размеров'
+];
+
 const getRandomPositiveInteger = (a, b = 1) => {
   if (a === undefined) {
     throw new Error('Первый параметр должен быть число');
@@ -33,11 +43,12 @@ const getRandomPositiveInteger = (a, b = 1) => {
 };
 
 const checkLengthLine = (line, maxLength) => (line.length <= maxLength);
+checkLengthLine('test', 5);
 
 const getRandomArrayElement = (elements) => elements[getRandomPositiveInteger(0, elements.length - 1)];
 
 const createComments = () => ({
-  id: 5, // доделать
+  id: idCounter + getRandomPositiveInteger(1, 100) + getRandomPositiveInteger(100, 200),
   avatar: `img/avatar-${getRandomPositiveInteger(1, 6)}.svg`,
   message: getRandomArrayElement(COMMENTS),
   name: getRandomArrayElement(NAMES),
@@ -48,7 +59,7 @@ const createPhotoDescr = () => {
   return {
     id: idCounter,
     url: `photos/${idCounter}.jpg`,
-    description: 'Sample text', //улучшить
+    description: getRandomArrayElement(DESCRIPTION),
     likes: getRandomPositiveInteger(15, 200),
     comments: Array.from({length: getRandomPositiveInteger(1, 4)}, createComments)
   };
@@ -56,6 +67,6 @@ const createPhotoDescr = () => {
 
 const storagePhotoDescr = Array.from({length: SIMILAR_PHOTO_DESCR_COUNT}, createPhotoDescr);
 
-// console.log(storagePhotoDescr);
+console.log(storagePhotoDescr);
 
 
