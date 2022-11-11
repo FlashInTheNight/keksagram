@@ -66,7 +66,8 @@ const createPhotoDescr = () => {
 };
 
 const storagePhotoDescr = Array.from({length: SIMILAR_PHOTO_DESCR_COUNT}, createPhotoDescr);
+storagePhotoDescr();
 
-console.log(storagePhotoDescr);
+// console.log(storagePhotoDescr);
 
 
