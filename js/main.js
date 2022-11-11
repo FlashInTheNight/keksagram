@@ -1,73 +1,67 @@
-let idCounter = 0;
-const SIMILAR_PHOTO_DESCR_COUNT = 25;
-const COMMENTS = [
+const commentLines = [
   'Всё отлично!',
   'В целом всё неплохо. Но не всё.',
-  'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
+  'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце-концов это просто непрофессионально.',
   'Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.',
   'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.',
-  'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!',
-];
-const NAMES = [
-  'Анна',
-  'Кирилл',
-  'Таисия',
-  'Артём',
-  'Евгений',
-  'Валерия',
-  'Полина',
-  'Фёдор',
-  'Александр',
-  'Ксения',
+  'Лица у людей на фотке перекошены, как-будто их избивают. Как можно было поймать такой неудачный момент?!',
 ];
 
-const DESCRIPTION = [
-  'Антилопа',
-  'Гепард',
-  'Бегемот',
-  'Олень',
-  'Кот',
-  'Крошечный заброшенный дом поросший дикими ягодами',
-  'Лазурный берег реки огромных размеров'
+const descriptions = [
+  'Летний чил на югах. #тай #отдых #лето #чил #travel #travelgram #summergram #chill',
+  'Тестим новую камеру! #camera #test #new #newcameratest #pic #photo #instaphoto',
+  'Затусили с друзьями на море #laptevsea #north #northeastpassage',
+  'Как же круто тут кормят #food #foodgram #instafood #delicious #yummy',
+  'Отдыхаем... #chill #relax #group #photo',
+  'Цените каждое мгновенье. Цените тех, кто рядом с вами и отгоняйте все сомненья. Не обижайте всех словами......',
+  'Вот это тачка! #wow #car #carwow #drive',
+  '#fun #party #cool #young',
+  'Господи, это такая милота, я сейчас умру от нежности, у меня закшалил мимимиметр',
+  'Хорошо, когда в жизни есть #друзья, которые вместе со мной могут зайти в #барнарубинштейна и бахнуть #пивка',
+  'Норм',
 ];
 
-const getRandomPositiveInteger = (a, b = 1) => {
-  if (a === undefined) {
-    throw new Error('Первый параметр должен быть число');
-  }
+const names = ['Николай', 'Аким', 'Ким', 'Харитон', 'Тимур', 'Степан'];
 
+const getRandomPositiveInteger = (a, b) => {
   const lower = Math.ceil(Math.min(Math.abs(a), Math.abs(b)));
   const upper = Math.floor(Math.max(Math.abs(a), Math.abs(b)));
   const result = Math.random() * (upper - lower + 1) + lower;
   return Math.floor(result);
 };
 
-const checkLengthLine = (line, maxLength) => (line.length <= maxLength);
-checkLengthLine('test', 5);
+const checkStringLength = (string, length) => string.length <= length;
 
-const getRandomArrayElement = (elements) => elements[getRandomPositiveInteger(0, elements.length - 1)];
+const getRandomArrayElement = (array) =>
+  array[getRandomPositiveInteger(0, array.length - 1)];
 
-const createComments = () => ({
-  id: idCounter + getRandomPositiveInteger(1, 100) + getRandomPositiveInteger(100, 200),
+const createMessage = () =>
+  Array.from({ length: getRandomPositiveInteger(1, 2) }, () =>
+    getRandomArrayElement(commentLines)
+  ).join(' ');
+
+const createComment = (index) => ({
+  id: index,
   avatar: `img/avatar-${getRandomPositiveInteger(1, 6)}.svg`,
-  message: getRandomArrayElement(COMMENTS),
-  name: getRandomArrayElement(NAMES),
+  message: createMessage(),
+  name: getRandomArrayElement(names),
 });
 
-const createPhotoDescr = () => {
-  ++idCounter;
-  return {
-    id: idCounter,
-    url: `photos/${idCounter}.jpg`,
-    description: getRandomArrayElement(DESCRIPTION),
-    likes: getRandomPositiveInteger(15, 200),
-    comments: Array.from({length: getRandomPositiveInteger(1, 4)}, createComments)
-  };
-};
+const createPicture = (index) => ({
+  id: index,
+  url: `photos/${index}.jpg`,
+  description: getRandomArrayElement(descriptions),
+  likes: getRandomPositiveInteger(15, 200),
+  comments: Array.from(
+    { length: getRandomPositiveInteger(0, 6) },
+    (_, commentIndex) => createComment(commentIndex + 1)
+  ),
+});
 
-const storagePhotoDescr = Array.from({length: SIMILAR_PHOTO_DESCR_COUNT}, createPhotoDescr);
-storagePhotoDescr();
+const getPictures = () =>
+  Array.from({ length: 25 }, (_, pictureIndex) =>
+    createPicture(pictureIndex + 1)
+  );
 
-// console.log(storagePhotoDescr);
-
-
+checkStringLength('', 140);
+getPictures();
