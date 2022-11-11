@@ -14,7 +14,10 @@ const getRandomPositiveInteger = (a, b = 1) => {
 
 const checkLengthLine = (line, maxLength) => (line.length <= maxLength);
 
-const createComments = () => {};
+const createComments = () => ({
+  id: 5,
+  avatar: `img/avatar-${getRandomPositiveInteger(1, 6)}.svg`,
+});
 
 const createPhotoDescr = () => {
   ++idCounter;
@@ -23,12 +26,7 @@ const createPhotoDescr = () => {
     url: `photos/${idCounter}.jpg`,
     description: 'Sample text',
     likes: getRandomPositiveInteger(15, 200),
-    comments: [
-      {
-        id: 5,
-        avatar: `img/avatar-${getRandomPositiveInteger(1, 6)}.svg`,
-      }
-    ]
+    comments: Array.from({length: getRandomPositiveInteger(1, 4)}, createComments)
   };
 };
 
