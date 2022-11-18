@@ -4,6 +4,11 @@ const likes = modalWindow.querySelector('.likes-count');
 const comments = modalWindow.querySelector('.comments-count');
 const commentsList = modalWindow.querySelector('.social__comments');
 const caption = modalWindow.querySelector('.social__caption');
+const bodyTag = document.querySelector('body');
+const cancelBtn = modalWindow.querySelector('.cancel');
+// Временно прячем счётчик и загрузку комментариев
+const commentCount = modalWindow.querySelector('.social__comment-count');
+const commentLoader = modalWindow.querySelector('.comments-loader');
 
 
 const addCommentsItem = function (commentElement) {
@@ -33,9 +38,23 @@ const changeData = function (data) {
 const CreateListener = function (arrPics, element) {
   element.addEventListener('click', () => {
     modalWindow.classList.remove('hidden');
+    commentCount.classList.add('hidden');
+    commentLoader.classList.add('hidden');
+    bodyTag.classList.add('modal-open');
     changeData(arrPics);
   });
 };
 
+cancelBtn.addEventListener('click', () => {
+  modalWindow.classList.add('hidden');
+  bodyTag.classList.remove('modal-open');
+});
+
+document.addEventListener('keydown', (evt) => {
+  if(evt.key === 'Escape') {
+    modalWindow.classList.add('hidden');
+    bodyTag.classList.remove('modal-open');
+  }
+});
 
 export {CreateListener};
