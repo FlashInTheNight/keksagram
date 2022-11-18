@@ -5,9 +5,9 @@ const getRandomPositiveInteger = (a, b) => {
   return Math.floor(result);
 };
 
+const checkStringLength = (string, length) => string.length <= length;
+
 const getRandomArrayElement = (array) =>
   array[getRandomPositiveInteger(0, array.length - 1)];
 
-const checkStringLength = (string, length) => string.length <= length;
-
-export {getRandomPositiveInteger, getRandomArrayElement, checkStringLength};
+export { getRandomPositiveInteger, checkStringLength, getRandomArrayElement };
