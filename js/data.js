@@ -48,8 +48,8 @@ const createPicture = (index) => ({
   ),
 });
 
-const getPictures = (arrLength) =>
-  Array.from({ length: arrLength }, (_, pictureIndex) =>
+const getPictures = () =>
+  Array.from({ length: 25 }, (_, pictureIndex) =>
     createPicture(pictureIndex + 1)
   );
 
