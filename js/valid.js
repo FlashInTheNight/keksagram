@@ -1,5 +1,6 @@
 const uploadForm = document.querySelector('.img-upload__form');
 const uploadTextHashTag = uploadForm.querySelector('.text__hashtags');
+const uploadTextDescription = uploadForm.querySelector('.text__description');
 
 const pristine = new Pristine(uploadForm, {
   classTo: 'img-upload__element', // Элемент, на который будут добавляться классы
@@ -39,7 +40,21 @@ pristine.addValidator(
 );
 
 
-// uploadForm.addEventListener('submit', (evt) => {
-//   evt.preventDefault();
-//   pristine.validate();
-// });
+uploadForm.addEventListener('submit', (evt) => {
+  evt.preventDefault();
+  pristine.validate();
+});
+
+// ESC
+
+uploadTextHashTag.addEventListener('focus', () => {
+  uploadTextHashTag.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {e.stopPropagation();}
+  });
+});
+
+uploadTextDescription.addEventListener('focus', () => {
+  uploadTextDescription.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {e.stopPropagation();}
+  });
+});
