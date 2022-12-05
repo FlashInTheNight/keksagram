@@ -8,7 +8,7 @@ const cancelButton = document.querySelector('#upload-cancel');
 const fileField = document.querySelector('#upload-file');
 const hashtagField = document.querySelector('.text__hashtags');
 const commentField = document.querySelector('.text__description');
-const submitButton = document.querySelector('.img-upload__submit');
+const submitButton = form.querySelector('.img-upload__submit');
 
 const MAX_HASHTAG_COUNT = 5;
 const MIN_HASHTAG_LENGTH = 2;
@@ -81,12 +81,6 @@ const validateTags = (value) => {
   return hasValidCount(tags) && hasUniqueTags(tags) && tags.every(isValidTag);
 };
 
-pristine.addValidator(
-  hashtagField,
-  validateTags,
-  'Неправильно заполнены хэштеги'
-);
-
 const blockSubmitButton = () => {
   submitButton.disabled = true;
   submitButton.textContent = 'Отправляю...';
@@ -96,6 +90,12 @@ const unblockSubmitButton = () => {
   submitButton.disabled = false;
   submitButton.textContent = 'Опубликовать';
 };
+
+pristine.addValidator(
+  hashtagField,
+  validateTags,
+  'Неправильно заполнены хэштеги'
+);
 
 const setOnFormSubmit = (cb) => {
   form.addEventListener('submit', async (evt) => {
@@ -110,13 +110,7 @@ const setOnFormSubmit = (cb) => {
   });
 };
 
-// const onFormSubmit = (evt) => {
-//   evt.preventDefault();
-//   pristine.validate();
-// };
-
 fileField.addEventListener('change', onFileInputChange);
 cancelButton.addEventListener('click', onCancelButtonClick);
-// form.addEventListener('submit', onFormSubmit);
 
-export {setOnFormSubmit, hideModal};
+export { setOnFormSubmit, hideModal };

@@ -25,7 +25,7 @@ const sendData = async (onSuccess, onFail, body) => {
       }
     );
 
-    if(!response.ok) {
+    if (!response.ok) {
       throw new Error('Не удалось отправить форму. Попробуйте ещё раз');
     }
 
@@ -35,4 +35,4 @@ const sendData = async (onSuccess, onFail, body) => {
   }
 };
 
-export {getData, sendData};
+export { getData, sendData };
