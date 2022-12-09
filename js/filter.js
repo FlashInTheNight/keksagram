@@ -1,64 +1,59 @@
-import { renderPictures } from './picture.js';
 import { debounce } from './util.js';
 
-const filter = {
+const PICTURES_COUNT = 10;
+const Filter = {
   DEFAULT: 'filter-default',
   RANDOM: 'filter-random',
   DISCUSSED: 'filter-discussed',
 };
-
-const PICTURES_COUNT = 10;
 
 const filtersElement = document.querySelector('.img-filters');
 
 let currentFilter = '';
 let pictures = [];
 
-const turnFilterOn = (loadedPicture) => {
-  filtersElement.classList.remove('img-filters--inactive');
-  pictures = [...loadedPicture];
-  currentFilter = filter.DEFAULT;
-};
-
-
 const randomSort = () => Math.random() - 0.5;
 
 const discussedSort = (pictureA, pictureB) =>
   pictureB.comments.length - pictureA.comments.length;
 
-
 const filterPictures = () => {
   switch (currentFilter) {
-    case filter.RANDOM:
+    case Filter.RANDOM:
       return [...pictures].sort(randomSort).slice(0, PICTURES_COUNT);
-    case filter.DISCUSSED:
+    case Filter.DISCUSSED:
       return [...pictures].sort(discussedSort);
     default:
       return [...pictures];
   }
 };
 
-const debouncedRenderPictures = debounce(renderPictures);
+const turnFilterOn = (loadedPictures) => {
+  filtersElement.classList.remove('img-filters--inactive');
+  pictures = [...loadedPictures];
+  currentFilter = Filter.DEFAULT;
+};
 
+const setOnFilterClick = (cb) => {
+  const debouncedCallback = debounce(cb);
 
-filtersElement.addEventListener('click', (evt) => {
-  debouncedRenderPictures(filterPictures());
-  if (!evt.target.classList.contains('img-filters__button')) {
-    return;
-  }
+  filtersElement.addEventListener('click', (evt) => {
+    if (!evt.target.classList.contains('img-filters__button')) {
+      return;
+    }
 
-  const clickedButton = evt.target;
-  if (clickedButton.id === currentFilter) {
-    return;
-  }
+    const clickedButton = evt.target;
+    if (clickedButton.id === currentFilter) {
+      return;
+    }
 
-  filtersElement
-    .querySelector('.img-filters__button--active')
-    .classList.remove('img-filters__button--active');
+    filtersElement
+      .querySelector('.img-filters__button--active')
+      .classList.remove('img-filters__button--active');
+    clickedButton.classList.add('img-filters__button--active');
+    currentFilter = clickedButton.id;
+    debouncedCallback(filterPictures());
+  });
+};
 
-  clickedButton.classList.add('img-filters__button--active');
-  currentFilter = clickedButton.id;
-  renderPictures(filterPictures());
-});
-
-export { turnFilterOn, filterPictures };
+export { setOnFilterClick, turnFilterOn, filterPictures };
